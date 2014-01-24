@@ -11,8 +11,9 @@ Mozu themes have lots of JavaScript in them to support the fancy, dynamic featur
 Zubat analyzes the dependency tree of your modules (using r.js) and reads any specific build directions you have in your `build.js` file, then uses it to *compile and minify your scripts*, into the `compiled/scripts` directory by default. You can then switch your theme to use the compiled scripts by changing the base URL supplied to Mozu-Require, which the Core4 theme does in `templates/modules/trailing-scripts.hypr`, keyed off the theme setting `useDebugScripts`:
 
 ```html
-<script>
-    var require = {
+<script src="{{siteContext.cdnPrefix}}/js/require-{% if themeSettings.useDebugScripts %}debug{% else %}min{% endif %}.js"></script>
+<script type="text/javascript">
+    require.config({
         {% if siteContext.cdnPrefix %}
         cdnPrefix: "{{ siteContext.cdnPrefix }}",
         {% endif %}
@@ -23,10 +24,7 @@ Zubat analyzes the dependency tree of your modules (using r.js) and reads any sp
             jquery: "//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery{% if not themeSettings.useDebugScripts %}.min{% endif %}"
         },
         priority: ['jquery']
-    };
-</script>
-<script src="{{siteContext.cdnPrefix}}/js/require-{% if themeSettings.useDebugScripts %}debug{% else %}min{% endif %}.js"></script>
-<script type="text/javascript">
+    });
     {% if themeSettings.useDebugScripts %}
     require([{% all_scripts %}]);
     {% else %}
@@ -75,7 +73,57 @@ Inside a theme directory:
 
     zubat .
 
-Will build the current theme. **NOTE: If your theme extends Core or any other theme, this currently won't work.
+Will build the current theme. **NOTE: If your theme extends Core or any other theme, this currently won't work. You need to specify manual ancestry.**
 
+So, inside a theme directory:
+
+    zubat --manualancestry ../Core4 .
+
+Or for short:
+
+    zubat -m ../Core4 .
+
+If your theme inherits another theme instead of Core4 and its parent theme also inherits, then you'll need to specify the whole ancestry tree. Specify the ancestors in order using the `-m` option multiple times.
+
+    zubat -m ../parenttheme -m ../grandparenttheme -m ../core4 ../themedir
+
+## API
+
+Zubat can be used in Node, which makes it perfect for task runners and other such garbage. Example grunt task follows:
+
+```js
+grunt.registerMultiTask('zubat', 'Compile theme JS files using Zubat.', function() {
+    var done = this.async(),
+    zubat = require('zubat');
+
+    if (!this.data.logLevel) this.data.logLevel = 2;
+    
+    var job = zubat(this.data.dir, this.data, function() {
+      grunt.log.ok('All tasks complete!');
+      done(true);
+    });
+
+    job.on('log', function(str, sev) {
+      switch(sev) {
+        case "success":
+          grunt.log.ok("zubat: " +str);
+          break;
+        case "error":
+          grunt.log.error("zubat: " +str);
+          job.cleanup();
+          grunt.fatal("Zubat failed.");
+          done(false);
+          break;
+        case "warning":
+          grunt.warn("zubat: " +str);
+          job.cleanup();
+          done(false);
+          break;
+        default:
+          grunt.verbose.writeln("zubat: " +str);
+      }
+    });
+});
+```
 
 
