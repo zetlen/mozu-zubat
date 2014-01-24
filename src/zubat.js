@@ -67,15 +67,27 @@ function createLogger(prog) {
         if (prog.logLevel >= level) {
             prog.logEventBus.emit('log', str, sev, level);
         }
-    }
+    };
 }
 
-module.exports = function (themePath, program, cb) {
+module.exports = function(themePath, program, cb) {
     program = program || {
         logLevel: 1
     };
     createLogger(program);
+
+    var dirToClean;
+    function cleanup(callback) {
+        if (!dirToClean) {
+            process.nextTick(callback);
+        } else {
+            program.log(2, constants.LOG_SEV_INFO, "Deleting temp theme " + dirToClean);
+            rimraf(dirToClean, callback);
+        }
+    }
+
     process.nextTick(function () {
+        main.program = program;
         program.log(1, constants.LOG_SEV_INFO, "Beginning compilation of " + themePath);
         program.workingDir = path.resolve(themePath, '..');
         themes.getThemeFromPath(path.resolve(themePath), program, function (err, thisTheme) {
@@ -96,10 +108,11 @@ module.exports = function (themePath, program, cb) {
                         program.log(1, constants.LOG_SEV_ERROR, "Error creating temp inherited theme.");
                         throw err;
                     }
+                    var baseDir = inheritedTheme.getBaseDir();
+                    main.dirToClean = baseDir;
                     compile(inheritedTheme, program, function () {
-                        var baseDir = inheritedTheme.getBaseDir();
-                        program.log(2, constants.LOG_SEV_INFO, "Compilation complete. Deleting temp theme " + baseDir);
-                        rimraf(baseDir, cb);
+                        program.log(2, constants.LOG_SEV_INFO, "Compilation complete.");
+                        cleanup(cb);
                     });
                 });
             } else {
@@ -107,5 +120,6 @@ module.exports = function (themePath, program, cb) {
             }
         });
     });
+    prog.logEventBus.cleanup = cleanup;
     return program.logEventBus;
 };
