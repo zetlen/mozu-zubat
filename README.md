@@ -14,9 +14,7 @@ Zubat analyzes the dependency tree of your modules (using r.js) and reads any sp
 <script src="{{siteContext.cdnPrefix}}/js/require-{% if themeSettings.useDebugScripts %}debug{% else %}min{% endif %}.js"></script>
 <script type="text/javascript">
     require.config({
-        {% if siteContext.cdnPrefix %}
         cdnPrefix: "{{ siteContext.cdnPrefix }}",
-        {% endif %}
         cacheKey: "{{ siteContext.hashString }}",
         urlArgs: "theme={{siteContext.themeId}}&cacheKey={{ siteContext.hashString }}",
         baseUrl: "{{ siteContext.cdnPrefix }}{% if not themeSettings.useDebugScripts %}/compiled{% endif %}/scripts",
