@@ -110,14 +110,16 @@ grunt.registerMultiTask('zubat', 'Compile theme JS files using Zubat.', function
           break;
         case "error":
           grunt.log.error("zubat: " +str);
-          job.cleanup();
-          grunt.fatal("Zubat failed.");
-          done(false);
+          job.cleanup(function() {
+            done(false);
+            grunt.fatal("Zubat failed.");
+          });
           break;
         case "warning":
           grunt.warn("zubat: " +str);
-          job.cleanup();
-          done(false);
+          job.cleanup(function() {
+            done(false);
+          });
           break;
         default:
           grunt.verbose.writeln("zubat: " +str);

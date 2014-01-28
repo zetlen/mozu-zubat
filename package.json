@@ -7,6 +7,10 @@
     "zubat": "./bin/zubat"
   },
   "main": "./src/zubat.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zetlen/mozu-zubat"
+  },
   "dependencies": {
     "mozu-require-compiler": "git://github.com/zetlen/mozu-require-compiler.git#master",
     "ncp": "~0.5",
