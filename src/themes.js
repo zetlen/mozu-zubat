@@ -29,13 +29,13 @@ Theme.prototype.getBuildConfig = function (cb) {
     var self = this;
     fs.readFile(path.resolve(this.getBaseDir(), "build.js"), { encoding: 'utf-8' }, function (err, data) {
         if (err) {
-            this.program.log(1, constants.LOG_SEV_ERROR, "Error getting build.js from " + self.name);
+            self.program.log(1, constants.LOG_SEV_ERROR, "Error getting build.js from " + self.name);
             return cb(err);
         }
         try {
             self.buildConfig = eval(data);
         } catch (e) {
-            this.program.log(1, constants.LOG_SEV_ERROR, "Error parsing build.js from " + self.name);
+            self.program.log(1, constants.LOG_SEV_ERROR, "Error parsing build.js from " + self.name);
             return cb(e);
         }
         cb(null, self.buildConfig);
