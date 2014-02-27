@@ -19,7 +19,7 @@ function createTempInheritedTheme(theme, program, finalCb) {
     if (!Array.isArray(ignores)) ignores = [ignores];
 
     if (program.manualancestry) {
-        if (!Array.isArray(program.manualAncestry)) program.manualancestry = [program.manualancestry];
+        if (!Array.isArray(program.manualancestry)) program.manualancestry = [program.manualancestry];
         async.map(program.manualancestry, function (themePath, continuation) {
             themes.getThemeFromPath(path.resolve(themePath), program, continuation);
         }, function (err, results) {
