@@ -12,10 +12,14 @@ ncp.limit = 16;
 function createTempInheritedTheme(theme, program, finalCb) {
     var tmpThemeName =  "zubat_tmp" + new Date().getTime(),
         tmpDirPath = path.resolve(path.join(program.workingDir, tmpThemeName)),
-        ancestry = [];
+        ancestry = [],
+        ignores = program.ignore || ['\.git','node_modules'];
+
+
+    if (!Array.isArray(ignores)) ignores = [ignores];
 
     if (program.manualancestry) {
-        if (typeof program.manualancestry === "string") program.manualancestry = [program.manualancestry];
+        if (!Array.isArray(program.manualAncestry)) program.manualancestry = [program.manualancestry];
         async.map(program.manualancestry, function (themePath, continuation) {
             themes.getThemeFromPath(path.resolve(themePath), program, continuation);
         }, function (err, results) {
@@ -46,10 +50,26 @@ function createTempInheritedTheme(theme, program, finalCb) {
     }
 
     function createFromAncestry() {
+        var i = 0,
+            il = ignores.length,
+            ignoreREs = ignores.map(function(s) {
+                return new RegExp(s);
+            });
         async.eachSeries(ancestry, function (ancestor, continuation) {
             var sourceDir = ancestor.getBaseDir();
             program.log(2, constants.LOG_SEV_INFO, "Beginning recursive copy of " + sourceDir + " to " + tmpDirPath + ".");
-            ncp(sourceDir, tmpDirPath, continuation);
+            ncp(sourceDir, tmpDirPath, {
+                filter: function(name) {
+                    name = name.replace(sourceDir, '');
+                    for (i=0; i < il; i++) {
+                        if (ignoreREs[i].test(name)) {
+                            program.log(2, constants.LOG_SEV_INFO, "Ignoring " + name);
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            }, continuation);
         }, function(err) {
             if (err) {
                 program.log(1, constants.LOG_SEV_ERROR, "Error occurred while copying files.");

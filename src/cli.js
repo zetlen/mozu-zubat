@@ -11,6 +11,8 @@
         .boolean('v')
         .alias('v', 'verbose')
         .describe('v', 'Talk a lot.')
+        .alias('i', 'ignore')
+        .describe('i', 'Specify a pattern of files and directories to ignore when processing, relative to root. Defaults to .git, node_modules')
         .boolean('q')
         .alias('q', 'quiet')
         .describe('q', 'Don\'t talk at all.')
