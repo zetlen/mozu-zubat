@@ -12,7 +12,7 @@
     "url": "https://github.com/zetlen/mozu-zubat"
   },
   "dependencies": {
-    "mozu-require-compiler": "git://github.com/zetlen/mozu-require-compiler.git#master",
+    "mozu-require-compiler": "*",
     "ncp": "~0.5",
     "async": "~0.2",
     "cli-color": "~0.2",
