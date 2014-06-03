@@ -1,6 +1,6 @@
 {
   "name": "zubat",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "author": "James Zetlen <james_zetlen@volusion.com>",
   "description": "JavaScript compiler for Mozu",
   "bin": {
