@@ -97,6 +97,18 @@ module.exports = function(themePath, program, cb) {
     createLogger(program);
 
     var dirToClean;
+
+    function finish(err) {
+        var composedCb = cb;
+        if (err) {
+            program.log(1, constants.LOG_SEV_ERROR, err.toString());
+            composedCb = function(newErr) {
+                return cb(newErr ? new Error("Multiple errors occurred: \n" + newErr.toString() + "\n" + err.toString() ) : err);
+            }
+        }
+        return cleanup(composedCb);
+    }
+
     function cleanup(callback) {
         if (!dirToClean) {
             process.nextTick(callback);
@@ -128,13 +140,10 @@ module.exports = function(themePath, program, cb) {
                         throw err;
                     }
                     dirToClean = inheritedTheme.getBaseDir();
-                    compile(inheritedTheme, program, function () {
-                        program.log(2, constants.LOG_SEV_INFO, "Compilation complete.");
-                        cleanup(cb);
-                    });
+                    compile(inheritedTheme, program, finish);
                 });
             } else {
-                compile(thisTheme, program, cb);
+                compile(thisTheme, program, finish);
             }
         });
     });

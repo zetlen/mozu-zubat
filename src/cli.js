@@ -37,9 +37,15 @@ if (program.quiet) program.logLevel = 0;
 
 module.exports = {
     run: function () {
-        zubat(themePath, program, function () {
-            if (!program.quiet) logger.success('All tasks complete!');
-            process.exit(0);
+        zubat(themePath, program, function (err) {
+            if (err) {
+                logger.error('One or more errors occurred.');
+                logger.error(err.toString());
+                process.exit(1);
+            } else {
+                if (!program.quiet) logger.success('All tasks complete!');
+                process.exit(0);
+            }
         }).on('log', function (str, sev, level) {
             logger[sev](str);
         });
