@@ -1,4 +1,5 @@
 ﻿var path = require('path'),
+    os = require('os'),
     events = require('events'),
     async = require('async'),
     ncp = require('ncp').ncp,
@@ -11,7 +12,7 @@ ncp.limit = 16;
 
 function createTempInheritedTheme(theme, program, finalCb) {
     var tmpThemeName =  "zubat_tmp" + new Date().getTime(),
-        tmpDirPath = path.resolve(path.join(program.workingDir, tmpThemeName)),
+        tmpDirPath = path.resolve(path.join(os.tmpdir(), tmpThemeName)),
         ancestry = [],
         ignores = program.ignore || ['\.git','node_modules'];
 
