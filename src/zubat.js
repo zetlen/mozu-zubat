@@ -121,7 +121,6 @@ module.exports = function(themePath, program, cb) {
 
     process.nextTick(function () {
         program.log(1, constants.LOG_SEV_INFO, "Beginning compilation of " + themePath);
-        program.workingDir = path.resolve(themePath, '..');
         themes.getThemeFromPath(path.resolve(themePath), program, function (err, thisTheme) {
             if (err) {
                 program.log(1, constants.LOG_SEV_ERROR, "Error getting theme " + themePath);
