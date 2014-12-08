@@ -1,7 +1,7 @@
 ﻿var zubat = require('./zubat'),
     logger = require('./logger'),
     pkg = require('../package.json'),
-    program = require('optimist')
+    program = require('yargs')
         .usage("Compress and optimize scripts in a Mozu theme, respecting theme inheritance. \nUsage: zubat [options] <themePath>")
         .alias('o', 'dest')
         .describe('o', 'Specify a destination other than the default /compiled/scripts directory of your theme.')
