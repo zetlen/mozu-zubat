@@ -1,6 +1,5 @@
 ﻿var zubat = require('./zubat'),
     logger = require('./logger'),
-    color = require('cli-color'),
     pkg = require('../package.json'),
     program = require('optimist')
         .usage("Compress and optimize scripts in a Mozu theme, respecting theme inheritance. \nUsage: zubat [options] <themePath>")

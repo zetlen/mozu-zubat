@@ -1,4 +1,4 @@
-﻿var color = require('cli-color'),
+﻿var color = require('colors'),
     constants = require('./constants'),
 
     severities = [
