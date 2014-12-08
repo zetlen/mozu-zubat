@@ -19,6 +19,7 @@ module.exports = function (theme, program, cb) {
         buildConfig.baseUrl = buildConfig.baseUrl || theme.getScriptsDir();
         buildConfig.dir = program.dest;
         buildConfig.logLevel = program.logLevel === 2 ? 0 : 1;
+        if (program.skipminification) buildConfig.optimize = "none";
         program.log(1, constants.LOG_SEV_INFO, "Compiling JS resources using optimizer.");
         try {
             requirejs.optimize(buildConfig, function() {

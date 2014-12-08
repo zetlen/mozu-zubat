@@ -8,6 +8,10 @@ Added ignore parameter to speed up compilation by avoiding large unnecessary fil
 
 Switched to a lighter terminal colors module
 
-## 0.2.7 -- December 9, 2014
+## 0.2.7 -- December 8, 2014
 
 Updated package references to latest library versions
+
+## 0.3.0 -- December 8, 2014
+
+Added skip-minification option for quick dev builds

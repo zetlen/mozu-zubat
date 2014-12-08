@@ -15,6 +15,8 @@
         .boolean('q')
         .alias('q', 'quiet')
         .describe('q', 'Don\'t talk at all.')
+        .alias('s','skipminification')
+        .describe('s', 'Skip the minification step. This results in a much faster build process and is good for developer workflow.')
         .describe('version', 'Print version information and exit.')
         .check(function (argv) {
             if (!argv.version && (!argv._ || !argv._[0])) {
