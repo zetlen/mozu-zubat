@@ -14,7 +14,7 @@ function createTempInheritedTheme(theme, program, finalCb) {
     var tmpThemeName =  "zubat_tmp" + new Date().getTime(),
         tmpDirPath = path.resolve(path.join(os.tmpdir(), tmpThemeName)),
         ancestry = [],
-        ignores = program.ignore || ['\.git','node_modules'];
+        ignores = program.ignore || ['\\.git','node_modules'];
 
 
     if (!Array.isArray(ignores)) ignores = [ignores];
