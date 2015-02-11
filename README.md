@@ -57,7 +57,8 @@ Run Zubat with no arguments for usage details.
         -o, --dest            Specify a destination other than the default /compiled/scripts directory of your theme.                                                                            
         -m, --manualancestry  Specify theme ancestry at the command line instead of analyzing it through theme.json. 
             Example: zubat -m ../parentThemeDir -m ../grandparentThemeDir -m ../Core4
-
+            
+        -b, --buildconfig     Specify an alternate location for the build configuration file. Defaults to `build.js`.
 
         -v, --verbose         Talk a lot.                                                                                                                                                        
         -q, --quiet           Don't talk at all.                                                                                                                                                 

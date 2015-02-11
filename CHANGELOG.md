@@ -1,5 +1,9 @@
 # Zubat Changelog
 
+## 0.4.0 -- February 11, 2015
+
+Added buildconfig parameter so you don't have to use a file called build.js
+
 ## 0.2.0 -- February 27, 2014
 
 Added ignore parameter to speed up compilation by avoiding large unnecessary file copies.
