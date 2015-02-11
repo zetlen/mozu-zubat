@@ -7,6 +7,8 @@
         .describe('o', 'Specify a destination other than the default /compiled/scripts directory of your theme.')
         .alias('m', 'manualancestry')
         .describe('m', 'Specify theme ancestry at the command line instead of analyzing it through theme.json. \nExample: zubat -m ../parentThemeDir -m ../grandparentThemeDir -m ../Core4\n\n')
+        .alias('b','buildconfig')
+        .describe('b', 'Specify an alternate location for the build configuration file. Defaults to `build.js`.')
         .boolean('v')
         .alias('v', 'verbose')
         .describe('v', 'Talk a lot.')

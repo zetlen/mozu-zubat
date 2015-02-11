@@ -26,7 +26,7 @@ Theme.prototype.getBuildConfig = function (cb) {
         });
     }
     this.program.log(2, constants.LOG_SEV_INFO, "Getting build config for " + this.name);
-    fs.readFile(path.resolve(this.getBaseDir(), "build.js"), { encoding: 'utf-8' }, function (err, data) {
+    fs.readFile(path.resolve(this.getBaseDir(), this.program.buildconfig || "build.js"), { encoding: 'utf-8' }, function (err, data) {
         if (err) {
             self.program.log(1, constants.LOG_SEV_ERROR, "Error getting build.js from " + self.name);
             return cb(err);
